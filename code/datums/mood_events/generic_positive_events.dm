@@ -358,3 +358,8 @@
 	description = "Heh heh. \"It's on the mouse\". What a play on words."
 	mood_change = 1
 	timeout = 2 MINUTES
+
+/datum/mood_event/butt
+	description = "Somebody used Close Quarters Femdom to sit on my face. Fuck— Why am I so aroused?!"
+	mood_change	= 7
+	timeout = 5 MINUTES
