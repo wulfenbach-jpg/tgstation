@@ -269,6 +269,11 @@
 			else
 				return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
 
+		if(H.dna.species.id == "felinid" && (!H.mind || !H.mind.miming))
+			return pick('ModularRail/zbungalowsounds/felinid/sound_voice_catpeople_nyaha.ogg', 'ModularRail/zbungalowsounds/felinid/sound_voice_catpeople_nyahaha1.ogg',
+				'ModularRail/zbungalowsounds/felinid/sound_voice_catpeople_nyahaha2.ogg', 'ModularRail/zbungalowsounds/felinid/sound_voice_catpeople_nyahehe.ogg')
+
+
 /datum/emote/living/look
 	key = "look"
 	key_third_person = "looks"
