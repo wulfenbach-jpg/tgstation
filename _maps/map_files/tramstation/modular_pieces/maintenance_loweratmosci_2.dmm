@@ -354,7 +354,7 @@
 "Gs" = (
 /obj/machinery/camera{
 	c_tag = "Science - Maintenance Intersection";
-	dir = 6;
+	dir = 9;
 	network = list("ss13","rd")
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{

@@ -4,7 +4,8 @@
 	name = "Space Battle"
 	icon_state = "awaycontent1"
 	requires_power = FALSE
-
+	static_lighting = FALSE
+	base_lighting_alpha = 255
 /area/awaymission/spacebattle/cruiser
 	name = "\improper Nanotrasen Cruiser"
 	icon_state = "awaycontent2"

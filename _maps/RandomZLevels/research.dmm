@@ -2081,6 +2081,7 @@
 	read_only = 1
 	},
 /obj/item/firing_pin/dna,
+/obj/item/dnainjector/hulkmut,
 /turf/open/floor/iron/dark,
 /area/awaymission/research/interior/secure)
 "hZ" = (
@@ -2139,7 +2140,8 @@
 	},
 /obj/item/firing_pin/dna/dredd,
 /obj/item/firing_pin/dna/dredd,
-/obj/item/dnainjector/insulated,
+/obj/item/dnainjector/lasereyesmut,
+/obj/item/dnainjector/lasereyesmut,
 /turf/open/floor/iron/dark,
 /area/awaymission/research/interior/secure)
 "io" = (
@@ -3515,32 +3517,24 @@
 /turf/open/floor/plating,
 /area/awaymission/research/interior/escapepods)
 "na" = (
-/obj/structure/closet/crate,
-/obj/item/disk/data{
-	desc = "A specialized data disk for holding critical genetic backup data. Without proper passwords, information will turn up blank on most DNA machines.";
-	name = "encrypted genetic data disk";
-	read_only = 1
-	},
-/obj/item/disk/data{
-	desc = "A specialized data disk for holding critical genetic backup data. Without proper passwords, information will turn up blank on most DNA machines.";
-	name = "encrypted genetic data disk";
-	read_only = 1
-	},
-/obj/item/firing_pin/dna,
-/obj/item/dnainjector/thermal,
-/turf/open/floor/iron/dark,
-/area/awaymission/research/interior/secure)
+/turf/closed/wall/mineral/plasma,
+/area/space/nearstation)
 "nb" = (
-/obj/structure/closet/crate,
-/obj/item/disk/data{
-	desc = "A specialized data disk for holding critical genetic backup data. Without proper passwords, information will turn up blank on most DNA machines.";
-	name = "encrypted genetic data disk";
-	read_only = 1
-	},
-/obj/item/firing_pin/dna,
-/obj/item/dnainjector/telemut,
-/turf/open/floor/iron/dark,
-/area/awaymission/research/interior/secure)
+/obj/structure/table/wood,
+/obj/item/book/granter/action/spell/random,
+/turf/open/floor/mineral/plasma,
+/area/space/nearstation)
+"nc" = (
+/mob/living/simple_animal/hostile/netherworld,
+/turf/open/floor/mineral/plasma,
+/area/space/nearstation)
+"nd" = (
+/obj/structure/healingfountain,
+/turf/open/floor/mineral/plasma,
+/area/space/nearstation)
+"ne" = (
+/turf/open/floor/mineral/plasma,
+/area/space/nearstation)
 "nf" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/awaymission/research/interior/engineering)
@@ -8964,11 +8958,11 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
-ab
+na
+na
+na
+na
+na
 ab
 ab
 ab
@@ -9221,11 +9215,11 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
-ab
+na
+nb
+nb
+nb
+na
 ab
 ab
 ab
@@ -9478,11 +9472,11 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
-ab
+na
+nc
+ne
+nc
+na
 ab
 ab
 ab
@@ -9735,11 +9729,11 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
-ab
+na
+nd
+ne
+nd
+na
 ab
 ab
 ab
@@ -9992,11 +9986,11 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
-ab
+na
+na
+ne
+na
+na
 ab
 ab
 ab
@@ -10250,9 +10244,9 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
+na
+ne
+na
 ab
 ab
 ab
@@ -10506,10 +10500,10 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
+na
+na
+ne
+na
 ab
 ab
 ab
@@ -10763,10 +10757,10 @@ ab
 ab
 ab
 ab
-ab
-ab
-ab
-ab
+na
+ne
+ne
+na
 ab
 ab
 ab
@@ -11020,10 +11014,10 @@ ab
 ab
 ab
 aa
-aa
-aa
-aa
-aa
+na
+na
+na
+na
 ab
 ab
 ab
@@ -30513,8 +30507,8 @@ eW
 dc
 cQ
 hT
-na
-nb
+hT
+dd
 cQ
 ad
 ad
