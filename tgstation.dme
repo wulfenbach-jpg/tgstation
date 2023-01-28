@@ -5062,5 +5062,4 @@
 #include "interface\menu.dm"
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
-#include "ModularRail\modules\modsuit_armor\modsuit_armor.dm"
 // END_INCLUDE
