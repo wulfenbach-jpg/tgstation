@@ -59,6 +59,49 @@
 	if(!QDELETED(jaunt))
 		jaunt.Remove(user)
 
+/obj/item/energy_katana/suicide_act(mob/living/user)
+	user.visible_message(span_suicide("[user] is trying to cut off all [user.p_their()] limbs with [src]! it looks like [user.p_theyre()] trying to commit suicide!"))
+	var/i = 0
+	ADD_TRAIT(src, TRAIT_NODROP, SABRE_SUICIDE_TRAIT)
+	if(iscarbon(user))
+		var/mob/living/carbon/Cuser = user
+		var/obj/item/bodypart/holding_bodypart = Cuser.get_holding_bodypart_of_item(src)
+		var/list/limbs_to_dismember
+		var/list/arms = list()
+		var/list/legs = list()
+		var/obj/item/bodypart/bodypart
+
+		for(bodypart in Cuser.bodyparts)
+			if(bodypart == holding_bodypart)
+				continue
+			if(bodypart.body_part & ARMS)
+				arms += bodypart
+			else if (bodypart.body_part & LEGS)
+				legs += bodypart
+
+		limbs_to_dismember = arms + legs
+		if(holding_bodypart)
+			limbs_to_dismember += holding_bodypart
+
+		var/speedbase = abs((4 SECONDS) / limbs_to_dismember.len)
+		for(bodypart in limbs_to_dismember)
+			i++
+			addtimer(CALLBACK(src, PROC_REF(suicide_dismember), user, bodypart), speedbase * i)
+	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), (5 SECONDS) * i)
+	return MANUAL_SUICIDE
+
+/obj/item/energy_katana/proc/suicide_dismember(mob/living/user, obj/item/bodypart/affecting)
+	if(!QDELETED(affecting) && affecting.dismemberable && affecting.owner == user && !QDELETED(user))
+		playsound(user, hitsound, 25, TRUE)
+		affecting.dismember(BRUTE)
+		user.adjustBruteLoss(20)
+
+/obj/item/energy_katana/proc/manual_suicide(mob/living/user, originally_nodropped)
+	if(!QDELETED(user))
+		user.adjustBruteLoss(200)
+		user.death(FALSE)
+	REMOVE_TRAIT(src, TRAIT_NODROP, SABRE_SUICIDE_TRAIT)
+
 /obj/item/energy_katana/Destroy()
 	QDEL_NULL(spark_system)
 	QDEL_NULL(jaunt)
