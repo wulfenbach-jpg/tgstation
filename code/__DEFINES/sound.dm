@@ -140,6 +140,7 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_BULLET_MISS "bullet_miss"
 #define SFX_CAN_OPEN "can_open"
 #define SFX_CLOWN_STEP "clown_step"
+#define SFX_COLLARBELL "collarbell"
 #define SFX_DESECRATION "desecration"
 #define SFX_EXPLOSION "explosion"
 #define SFX_EXPLOSION_CREAKING "explosion_creaking"

@@ -1,3 +1,6 @@
+/obj/item/clothing/neck/proc/step_action()
+	SEND_SIGNAL(src, COMSIG_NECK_STEP_ACTION)
+
 /obj/item/clothing/neck
 	name = "necklace"
 	icon = 'icons/obj/clothing/neck.dmi'
@@ -295,6 +298,10 @@
 	greyscale_colors = "#B40000#545350"
 	armor_type = /datum/armor/large_scarf_syndie
 
+/datum/armor/large_scarf_syndie
+	fire = 50
+	acid = 40
+
 /obj/item/clothing/neck/infinity_scarf
 	name = "infinity scarf"
 	icon_state = "infinity_scarf"
@@ -311,9 +318,9 @@
 	icon_state = "petcollar"
 	var/tagname = null
 
-/datum/armor/large_scarf_syndie
-	fire = 50
-	acid = 40
+/obj/item/clothing/neck/petcollar/Initialize()
+	.= ..()
+	AddComponent(/datum/component/squeak, list('sound/effects/collarbell1.ogg'=1,'sound/effects/collarbell2.ogg'=1), 50, 100, 2)
 
 /obj/item/clothing/neck/petcollar/attack_self(mob/user)
 	tagname = sanitize_name(tgui_input_text(user, "Would you like to change the name on the tag?", "Pet Naming", "Spot", MAX_NAME_LEN))
