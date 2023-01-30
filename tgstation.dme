@@ -5068,6 +5068,7 @@
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
 #include "ModularRail\datums\memory\memories.dm"
+#include "ModularRail\footwear\invishoes.dm"
 #include "ModularRail\pixel_shift\code\pixel_shift.dm"
 #include "ModularRail\syndimaids\syndimaid.dm"
 // END_INCLUDE
