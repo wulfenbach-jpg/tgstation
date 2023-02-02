@@ -43,11 +43,24 @@
 	AddElement(/datum/element/waddling)
 
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	if(prob(40))
+		oh_no()
 
 /mob/living/simple_animal/hostile/regalrat/Destroy()
 	QDEL_NULL(domain)
 	QDEL_NULL(riot)
 	return ..()
+
+/mob/living/simple_animal/hostile/regalrat/proc/oh_no()
+	dextrous = TRUE
+	change_number_of_hands(2)
+	icon_state = "funnyrat"
+	icon_living = "funnyrat"
+	icon_dead = "funnyrat_dead"
+	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_LITERATE, INNATE_TRAIT)
+	response_help_simple = "hug"
+	response_help_continuous = "hugs"
 
 /mob/living/simple_animal/hostile/regalrat/proc/become_player_controlled(mob/user)
 	log_message("took control of [name].", LOG_GAME)
