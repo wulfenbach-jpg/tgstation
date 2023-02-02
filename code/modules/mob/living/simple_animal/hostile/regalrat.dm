@@ -61,6 +61,8 @@
 	ADD_TRAIT(src, TRAIT_LITERATE, INNATE_TRAIT)
 	response_help_simple = "hug"
 	response_help_continuous = "hugs"
+	desc "A <b>thicc</b> rat, created through licentious and dubiously moral scientific practices. Nearby rats are ordered to serve their will by the gravitas of their booty. Queen of Rodent Butts."
+	gender = FEMALE
 
 /mob/living/simple_animal/hostile/regalrat/proc/become_player_controlled(mob/user)
 	log_message("took control of [name].", LOG_GAME)
