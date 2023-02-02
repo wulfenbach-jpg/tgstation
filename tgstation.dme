@@ -5073,7 +5073,7 @@
 #include "interface\menu.dm"
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
-#include "ModularRail\bloodsuckers\trauma.dm"
+#include "ModularRail\bloodsuckers\code\trauma.dm"
 #include "ModularRail\bloodsuckers\code\defines.dm"
 #include "ModularRail\bloodsuckers\code\helpers.dm"
 #include "ModularRail\bloodsuckers\code\powers\_powers.dm"
