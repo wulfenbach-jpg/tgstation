@@ -133,3 +133,16 @@
 	desc = "The king is dead, long live the king!"
 	database_id = BOSS_MEDAL_KINGGOAT_CRUSHER
 	icon = "goatboss"
+
+//Rail edit
+/datum/award/achievement/boss/necromancer_kill
+	name = "Necromancer Killer"
+	desc = "Now he lays among those he commanded..."
+	database_id = BOSS_MEDAL_NECROMANCER
+	icon = "necromancer"
+
+/datum/award/achievement/boss/necromancer_crusher
+	name = "Necromancer Crusher"
+	desc = "A worthy foe, turned to dust. How the turntables."
+	database_id = BOSS_MEDAL_NECROMANCER_CRUSHER
+	icon = "necromancer"

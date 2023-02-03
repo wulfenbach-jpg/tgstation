@@ -5134,4 +5134,10 @@
 #include "ModularRail\footwear\invishoes.dm"
 #include "ModularRail\pixel_shift\code\pixel_shift.dm"
 #include "ModularRail\syndimaids\syndimaid.dm"
+#include "ModularRail\tomb\code\gate.dm"
+#include "ModularRail\tomb\code\loot.dm"
+#include "ModularRail\tomb\code\necromancer.dm"
+#include "ModularRail\tomb\code\necromancer_skeletons.dm"
+#include "ModularRail\tomb\code\portal.dm"
+#include "ModularRail\tomb\code\zlevel.dm"
 // END_INCLUDE
