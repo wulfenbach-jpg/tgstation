@@ -5134,4 +5134,13 @@
 #include "ModularRail\footwear\invishoes.dm"
 #include "ModularRail\pixel_shift\code\pixel_shift.dm"
 #include "ModularRail\syndimaids\syndimaid.dm"
+#include "ModularRail\tribal_extended\code\bow.dm"
+#include "ModularRail\tribal_extended\code\crafting.dm"
+#include "ModularRail\tribal_extended\code\quiver.dm"
+#include "ModularRail\tribal_extended\code\recipes.dm"
+#include "ModularRail\tribal_extended\code\ammo\caseless\arrow.dm"
+#include "ModularRail\tribal_extended\code\ammo\reusable\arrow.dm"
+#include "ModularRail\tribal_extended\code\weapons\bow.dm"
+#include "ModularRail\tribal_extended\code\weapons\shield.dm"
+#include "ModularRail\tribal_extended\code\weapons\sword.dm"
 // END_INCLUDE
