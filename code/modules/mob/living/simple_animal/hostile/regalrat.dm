@@ -34,7 +34,7 @@
 	///The Spell that the rat uses to recruit/convert more rats.
 	var/datum/action/cooldown/riot/riot
 	///idk man
-	/var/rat_cum = FALSE
+	var/rat_cum = FALSE
 
 /mob/living/simple_animal/hostile/regalrat/Initialize(mapload)
 	. = ..()
