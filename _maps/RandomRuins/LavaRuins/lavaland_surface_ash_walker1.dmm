@@ -483,6 +483,7 @@
 /obj/structure/stone_tile/cracked{
 	dir = 8
 	},
+/obj/machinery/vending/ashclothingvendor,
 /turf/open/indestructible/boss,
 /area/ruin/unpowered/ash_walkers)
 "bB" = (
@@ -787,6 +788,7 @@
 	dir = 1
 	},
 /obj/effect/mapping_helpers/no_lava,
+/obj/effect/ash_rune,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/lavaland/surface/outdoors)
 "oI" = (
@@ -1086,6 +1088,7 @@
 	dir = 1
 	},
 /obj/item/weldingtool/experimental,
+/obj/structure/sink/fuel_well,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/unpowered/ash_walkers)
 "Go" = (
