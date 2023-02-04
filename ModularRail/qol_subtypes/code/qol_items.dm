@@ -1,8 +1,15 @@
 /obj/item/storage/backpack/duffelbag/debug_surgery
-	name = "alien surgery duffel bag"
-	desc = "An alien looking duffel bag for holding surgery tools."
+	name = "debug duffel bag"
+	desc = "An alien looking duffel bag for holding... everything."
 	icon_state = "duffel-abductor"
 	inhand_icon_state = "duffel-syndie"
+	worn_icon_state = "duffel-syndie"
+	slowdown = 0
+
+/obj/item/storage/backpack/duffelbag/debug_surgery/Initialize(mapload)
+	. = ..()
+	create_storage(max_slots = 1.#INF, max_specific_storage = WEIGHT_CLASS_GIGANTIC, max_total_storage = 1.#INF, numerical_stacking = 1, type = /datum/storage)
+	atom_storage.allow_big_nesting = TRUE
 
 /obj/item/surgical_processor/debug
 	name = "debug surgical processor"
