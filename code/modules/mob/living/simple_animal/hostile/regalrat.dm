@@ -145,7 +145,8 @@
 		src.visible_message(span_warning("[src] starts licking [target] passionately!"),span_notice("You start licking [target]..."))
 		if (do_mob(src, target, 2 SECONDS, interaction_key = REGALRAT_INTERACTION))
 			if(rat_cum == TRUE)
-				target.reagents.add_reagent(/datum/reagent/rat_spit/funny,rand(1,3),no_react = TRUE)
+				target.reagents.add_reagent(/datum/reagent/funny_rat_spit,rand(1,3),no_react = TRUE)
+				to_chat(src, span_notice("You finish licking [target]."))
 			else
 				target.reagents.add_reagent(/datum/reagent/rat_spit,rand(1,3),no_react = TRUE)
 				to_chat(src, span_notice("You finish licking [target]."))
@@ -459,7 +460,7 @@
 		C.vomit()
 	..()
 
-/datum/reagent/rat_spit/funny
+/datum/reagent/funny_rat_spit
 	name = "Rat fluid"
 	description = "Something coming from a rat. Dear god! Who knows where it's been!"
 	reagent_state = LIQUID
@@ -468,13 +469,13 @@
 	taste_description = "something funny"
 	overdose_threshold = 30
 
-/datum/reagent/rat_spit/funny/on_mob_metabolize(mob/living/L)
+/datum/reagent/funny_rat_spit/on_mob_metabolize(mob/living/L)
 	..()
 	if(HAS_TRAIT(L, TRAIT_AGEUSIA))
 		return
 	to_chat(L, span_notice("This food has a funny taste!"))
 
-/datum/reagent/rat_spit/funny/overdose_start(mob/living/M)
+/datum/reagent/funny_rat_spit/overdose_start(mob/living/M)
 	..()
 	var/mob/living/carbon/victim = M
 	if (istype(victim) && !(FACTION_RAT in victim.faction))
@@ -484,7 +485,7 @@
 		victim.adjustStaminaLoss(200)
 	metabolization_rate = 10 * REAGENTS_METABOLISM
 
-/datum/reagent/rat_spit/funny/on_mob_life(mob/living/carbon/C)
+/datum/reagent/funny_rat_spit/on_mob_life(mob/living/carbon/C)
 	if(prob(15))
 		to_chat(C, span_notice("You feel horny!"))
 		C.adjustStaminaLoss(30)
