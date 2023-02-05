@@ -52,3 +52,9 @@
 	name = "Wendigos Killed"
 	desc = "You've killed HOW many?"
 	database_id = WENDIGO_SCORE
+
+//rail edit
+/datum/award/score/necromancer_score
+	name = "Necromancers Killed"
+	desc = "You've killed HOW many?"
+	database_id = NECROMANCER_SCORE

@@ -175,6 +175,10 @@ GATEWAY_DELAY 0
 ## The probability of the gateway mission being a config one
 CONFIG_GATEWAY_CHANCE 0
 
+## TOMB WORLDS
+## Uncomment to enable tomb world spawn on roundstart
+TOMBWORLD_ENABLED
+
 ## ACCESS ###
 
 ## If the number of players ready at round starts exceeds this threshold, JOBS_HAVE_MINIMAL_ACCESS will automatically be enabled. Otherwise, it will be disabled.
