@@ -1,5 +1,5 @@
 // How much "space" we give the edge of the map
-GLOBAL_LIST_INIT(potentialTombWorlds, generateMapList(filename = "[global.config.directory]/tomb_worlds.txt"))
+GLOBAL_LIST_INIT(potentialTombWorlds, generateMapList(filename = "tomb_worlds.txt"))
 GLOBAL_DATUM(tomb_portal_location, /obj/effect/landmark/tomb_portal_start)
 
 /proc/createRandomTomb()
