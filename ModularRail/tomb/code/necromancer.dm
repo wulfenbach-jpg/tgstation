@@ -9,7 +9,7 @@
 	icon_state = "necromancer"
 	icon_living = "necromancer"
 	icon = 'ModularRail/tomb/megafauna.dmi'
-	faction = list("necromancer")
+	faction = list("boss", "necromancer")
 	attack_sound = 'sound/weapons/punch1.ogg'
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	light_color = "#0F0F0F"
