@@ -18,7 +18,7 @@
 	},
 /area/awaymission/wildwest/vault)
 "af" = (
-/mob/living/simple_animal/hostile/faithless,
+/mob/living/basic/faithless,
 /turf/open/floor/engine/cult,
 /area/awaymission/wildwest/vault)
 "ag" = (
@@ -47,7 +47,7 @@
 /turf/open/floor/engine/cult,
 /area/awaymission/wildwest/vault)
 "am" = (
-/mob/living/simple_animal/hostile/faithless,
+/mob/living/basic/faithless,
 /turf/open/floor/circuit/off,
 /area/awaymission/wildwest/vault)
 "an" = (
@@ -102,7 +102,7 @@
 /turf/open/floor/carpet,
 /area/awaymission/wildwest/vault)
 "aE" = (
-/mob/living/simple_animal/hostile/faithless,
+/mob/living/basic/faithless,
 /turf/open/floor/carpet,
 /area/awaymission/wildwest/vault)
 "aF" = (

@@ -33,6 +33,8 @@
 	var/datum/action/cooldown/domain/domain
 	///The Spell that the rat uses to recruit/convert more rats.
 	var/datum/action/cooldown/riot/riot
+	///idk man
+	var/rat_cum = FALSE
 
 /mob/living/simple_animal/hostile/regalrat/Initialize(mapload)
 	. = ..()
@@ -43,11 +45,27 @@
 	AddElement(/datum/element/waddling)
 
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	if(prob(40))
+		oh_no()
 
 /mob/living/simple_animal/hostile/regalrat/Destroy()
 	QDEL_NULL(domain)
 	QDEL_NULL(riot)
 	return ..()
+
+/mob/living/simple_animal/hostile/regalrat/proc/oh_no()
+	dextrous = TRUE
+	change_number_of_hands(2)
+	icon_state = "funnyrat"
+	icon_living = "funnyrat"
+	icon_dead = "funnyrat_dead"
+	ADD_TRAIT(src, TRAIT_ADVANCEDTOOLUSER, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_LITERATE, INNATE_TRAIT)
+	response_help_simple = "hug"
+	response_help_continuous = "hugs"
+	desc = "A <b>thicc</b> rat, created through licentious and dubiously moral scientific practices. Nearby rats are ordered to serve their will by the gravitas of their booty. Queen of Rodent Butts."
+	gender = FEMALE
+	rat_cum = TRUE
 
 /mob/living/simple_animal/hostile/regalrat/proc/become_player_controlled(mob/user)
 	log_message("took control of [name].", LOG_GAME)
@@ -126,8 +144,12 @@
 	if (target.reagents && target.is_injectable(src, allowmobs = TRUE) && !istype(target, /obj/item/food/cheese))
 		src.visible_message(span_warning("[src] starts licking [target] passionately!"),span_notice("You start licking [target]..."))
 		if (do_mob(src, target, 2 SECONDS, interaction_key = REGALRAT_INTERACTION))
-			target.reagents.add_reagent(/datum/reagent/rat_spit,rand(1,3),no_react = TRUE)
-			to_chat(src, span_notice("You finish licking [target]."))
+			if(rat_cum == TRUE)
+				target.reagents.add_reagent(/datum/reagent/funny_rat_spit,rand(1,3),no_react = TRUE)
+				to_chat(src, span_notice("You finish licking [target]."))
+			else
+				target.reagents.add_reagent(/datum/reagent/rat_spit,rand(1,3),no_react = TRUE)
+				to_chat(src, span_notice("You finish licking [target]."))
 			return
 	else
 		SEND_SIGNAL(target, COMSIG_RAT_INTERACT, src)
@@ -436,4 +458,43 @@
 		C.adjust_disgust(5)
 	else if(prob(5))
 		C.vomit()
+	..()
+
+/datum/reagent/funny_rat_spit
+	name = "Rat fluid"
+	description = "Something coming from a rat. Dear god! Who knows where it's been!"
+	reagent_state = LIQUID
+	color = "#d861ba"
+	metabolization_rate = 0.03 * REAGENTS_METABOLISM
+	taste_description = "something funny"
+	overdose_threshold = 30
+
+/datum/reagent/funny_rat_spit/on_mob_metabolize(mob/living/L)
+	..()
+	if(HAS_TRAIT(L, TRAIT_AGEUSIA))
+		return
+	to_chat(L, span_notice("This food has a funny taste!"))
+
+/datum/reagent/funny_rat_spit/overdose_start(mob/living/M)
+	..()
+	var/mob/living/carbon/victim = M
+	if (istype(victim) && !(FACTION_RAT in victim.faction))
+		to_chat(victim, span_userdanger("With this last sip, you feel your body convulsing in pleasure from the contents you've ingested. As you contemplate your actions, you sense an awakened kinship with rat-kind and their newly risen leader!"))
+		victim.faction |= FACTION_RAT
+		victim.emote("moan", intentional=FALSE)
+		victim.adjustStaminaLoss(200)
+	metabolization_rate = 10 * REAGENTS_METABOLISM
+
+/datum/reagent/funny_rat_spit/on_mob_life(mob/living/carbon/C)
+	if(prob(15))
+		to_chat(C, span_notice("You feel horny!"))
+		C.adjustStaminaLoss(30)
+		C.emote("blush", intentional=FALSE)
+	else if(prob(10))
+		to_chat(C, span_warning("Your loins churn briefly, your thighs rubbing together as heat collects into a roiling tide of need and want!"))
+		C.adjustStaminaLoss(40)
+		C.emote("blush", intentional=FALSE)
+	else if(prob(5))
+		C.adjustStaminaLoss(50)
+		C.emote("moan", intentional=FALSE)
 	..()

@@ -18,6 +18,10 @@
 	desc = "For emergency magmatic burn relief."
 	cost_per_order = 700
 
+/datum/orderable_item/consumables/megafauna_perfume
+	item_path = /obj/item/megafauna_perfume
+	cost_per_order = 6000
+
 /datum/orderable_item/consumables/whiskey
 	item_path = /obj/item/reagent_containers/cup/glass/bottle/whiskey
 	cost_per_order = 100
