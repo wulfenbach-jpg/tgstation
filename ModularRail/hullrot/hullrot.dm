@@ -22,7 +22,7 @@
 		for (var/obj/item/radio/R in view(1))
 			if (!istype(R, /obj/item/radio/intercom) && !(R in src))
 				continue  // can't talk into a non-intercom you're not holding
-			if (!R.on || R.wires.is_cut(WIRE_TX) || (istype(R, /obj/item/radio/headset) && !R.listening))
+			if (!R.is_on() || R.wires.is_cut(WIRE_TX) || (istype(R, /obj/item/radio/headset) && !R.get_listening()))
 				stat(null, "\the [R] (off)")
 				continue  // can't talk into a disabled radio
 			if (R.subspace_transmission && !R.independent && (!SShullrot.subspace_groups || !SShullrot.subspace_groups["[T.z]"]))
@@ -30,7 +30,7 @@
 				continue  // can't talk into headsets while comms are down
 
 			stat(null, "\the [R]")
-			hullrot_stat(keys_used, R, "Tuner", R.frequency)
+			hullrot_stat(keys_used, R, "Tuner", R.get_frequency())
 			for (var/channel in R.channels)
 				if (R.channels[channel])
 					hullrot_stat(keys_used, R, channel, GLOB.radiochannels[channel])
@@ -183,8 +183,9 @@
 	// Languages
 	var/datum/language_holder/langs = get_language_holder()
 	var/list/language_names = list()
-	for (var/L in langs.languages)
-		language_names += "[L]"
+	for(var/lang in GLOB.all_languages)
+		if(langs.has_language(lang) || langs.has_language(lang, TRUE))
+			language_names += "[lang]"
 	var/stringified = list2params(language_names)
 	if (cache["lang_known"] != stringified)
 		cache["lang_known"] = stringified
@@ -237,16 +238,16 @@
 	var/list/hot_freqs = list()
 	var/list/hear_freqs = list()
 	for(var/obj/item/radio/R in hearers)
-		if (get_dist(audio_source, R) > R.canhear_range || !R.on)
+		if (get_dist(audio_source, R) > R.canhear_range || !R.is_on())
 			continue
 		if (R.subspace_transmission && !R.independent && (!SShullrot.subspace_groups || !SShullrot.subspace_groups["[T.z]"]))
 			continue
 
-		if (can_speak && R.broadcasting && (!R.wires || !R.wires.is_cut(WIRE_TX)) && get_dist(audio_source, R) <= speak_range)
-			hot_freqs |= R.frequency
+		if (can_speak && R.get_broadcasting() && (!R.wires || !R.wires.is_cut(WIRE_TX)) && get_dist(audio_source, R) <= speak_range)
+			hot_freqs |= R.get_frequency()
 
-		if (can_hear && R.listening && (!R.wires || !R.wires.is_cut(WIRE_RX)) && R.can_receive(R.frequency, list(R.z)))
-			hear_freqs |= R.frequency
+		if (can_hear && R.get_listening() && (!R.wires || !R.wires.is_cut(WIRE_RX)) && R.can_receive(R.get_frequency(), list(R.z)))
+			hear_freqs |= R.get_frequency()
 			for (var/channel in R.channels)
 				if (R.channels[channel])
 					hear_freqs |= GLOB.radiochannels[channel]
@@ -366,15 +367,12 @@
 
 	//Message
 	var/datum/language/D = GLOB.language_datum_instances[message_language]
-	var/verbpart = D.get_spoken_verb()
-	if (verbpart == "says")
-		verbpart = "speaks"
 
 	var/langpart = ""
 	if(!has_language(message_language))
 		langpart = " in an unknown language"
 
-	var/messagepart = " <span class='message'>[verbpart][langpart].</span></span>"
+	var/messagepart = " <span class='message'>[langpart].</span></span>"
 
 	var/languageicon = ""
 	if(istype(D) && D.display_icon(src))

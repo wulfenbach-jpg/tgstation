@@ -193,7 +193,7 @@ SUBSYSTEM_DEF(hullrot)
 
 			var/image/bubble = speaker.hullrot_bubble
 			if (!bubble)
-				speaker.hullrot_bubble = bubble = image('icons/mob/talk.dmi', speaker.hullrot_audio_source(), "[speaker.bubble_icon]0", FLY_LAYER - 0.01)
+				speaker.hullrot_bubble = bubble = image('icons/mob/effects/talk.dmi', speaker.hullrot_audio_source(), "[speaker.bubble_icon]0", FLY_LAYER - 0.01)
 			else
 				bubble.icon_state = "[speaker.bubble_icon]0"
 				bubble.loc = speaker.hullrot_audio_source()
