@@ -158,6 +158,12 @@
 /obj/structure/table/bronze,
 /turf/open/indestructible/boss,
 /area/lavaland/surface/outdoors)
+"go" = (
+/obj/effect/mapping_helpers/ztrait_injector{
+	traits_to_add = list(ZTRAIT_MINING)
+	},
+/turf/closed/indestructible/riveted/boss,
+/area/lavaland/surface/outdoors)
 "gx" = (
 /turf/closed/indestructible/rock,
 /area/lavaland/surface/outdoors)
@@ -66934,5 +66940,5 @@ ri
 ri
 ri
 ri
-ri
+go
 "}
