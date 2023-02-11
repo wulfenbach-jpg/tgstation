@@ -1711,6 +1711,10 @@
 	name = "Thocks"
 	icon_state = "thocks"
 
+/datum/sprite_accessory/socks/leggings
+	name = "Leggings"
+	icon_state = "leggings"
+
 //////////.//////////////////
 // MutantParts Definitions //
 /////////////////////////////

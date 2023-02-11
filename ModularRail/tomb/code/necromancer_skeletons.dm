@@ -13,10 +13,6 @@
 /mob/living/simple_animal/hostile/skeleton/necromancer/mage
 	name = "mage skeleton"
 	desc = "A skeleton with a tiny bit more magic put into its revival."
-	icon = 'ModularRail/tomb/skelemage.dmi'
-	icon_state = "skeleton_mage"
-	icon_living = "skeleton_mage"
-	icon_dead = "skeleton_mage"
 	light_color = LIGHT_COLOR_BLOOD_MAGIC
 	maxHealth = 100
 	health = 100
@@ -26,10 +22,13 @@
 	melee_damage_upper = 12
 	retreat_distance = 2
 	minimum_distance = 1
+	light_range = 2
+	outfit = /datum/outfit/skelemage
+	held_item = /obj/item/nullrod/godhand
 
-/mob/living/simple_animal/hostile/skeleton/necromancer/mage/Initialize()
-	. = ..()
-	set_light(2)
+/datum/outfit/skelemage
+	name = "SkeleMage"
+	r_hand = /obj/item/nullrod/godhand
 
 /mob/living/simple_animal/hostile/skeleton/necromancer/mage/OpenFire()
 	var/T = get_turf(target)
