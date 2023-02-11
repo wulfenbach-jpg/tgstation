@@ -5158,6 +5158,8 @@
 #include "ModularRail\bloodsuckers\code\vassal\types\revenge_vassal.dm"
 #include "ModularRail\datums\memory\memories.dm"
 #include "ModularRail\footwear\invishoes.dm"
+#include "ModularRail\hullrot\hullrot.dm"
+#include "ModularRail\hullrot\SShullrot.dm"
 #include "ModularRail\mining_etc\megafauna_perfume.dm"
 #include "ModularRail\pixel_shift\code\pixel_shift.dm"
 #include "ModularRail\qol_subtypes\code\qol_items.dm"

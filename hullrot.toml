@@ -1,0 +1,7 @@
+[hullrot]
+server_name = "Hullrot"
+mumble_addr = "0.0.0.0:64738"
+control_addr = "127.0.0.1:10961"
+cert_pem = "cert.pem"
+key_pem = "key.pem"
+verbose_control = false
