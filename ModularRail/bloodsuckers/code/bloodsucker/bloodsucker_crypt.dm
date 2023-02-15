@@ -168,7 +168,7 @@
 		return
 	// Good to go - Buckle them!
 	use_lock = TRUE
-	if(do_mob(user, living_target, 5 SECONDS))
+	if(do_after(user, living_target, 5 SECONDS))
 		attach_victim(living_target, user)
 	use_lock = FALSE
 
@@ -223,7 +223,7 @@
 				span_danger("[user] tries to pull [buckled_mob] rack!"),
 				span_hear("You hear a squishy wet noise."),
 			)
-		if(!do_mob(user, buckled_mob))
+		if(!do_after(user, buckled_mob))
 			return
 	unbuckle_mob(buckled_mob)
 	. = ..()
@@ -316,7 +316,7 @@
 		span_notice("[user] marks a bloody smear on [target]'s forehead and puts a wrist up to [target.p_their()] mouth!"),
 		span_notice("You paint a bloody marking across [target]'s forehead, place your wrist to [target.p_their()] mouth, and subject [target.p_them()] to the Dark Communion."),
 	)
-	if(!do_mob(user, src, 5 SECONDS))
+	if(!do_after(user, src, 5 SECONDS))
 		to_chat(user, span_danger("<i>The ritual has been interrupted!</i>"))
 		use_lock = FALSE
 		return
@@ -367,7 +367,7 @@
 	/// Minimum 5 seconds.
 	torture_time = max(50, torture_time * 10)
 	/// Now run process.
-	if(!do_mob(user, target, torture_time * mult))
+	if(!do_after(user, target, torture_time * mult))
 		return FALSE
 	/// Success?
 	if(held_item)
@@ -596,7 +596,7 @@
 		return
 
 	/// Good to go - Buckle them!
-	if(do_mob(user, target, 5 SECONDS))
+	if(do_after(user, target, 5 SECONDS))
 		attach_mob(target, user)
 
 /obj/structure/bloodsucker/candelabrum/proc/attach_mob(mob/living/target, mob/living/user)
