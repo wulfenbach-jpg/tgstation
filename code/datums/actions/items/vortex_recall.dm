@@ -13,3 +13,10 @@
 		if(teleport_stick.teleporting)
 			return FALSE
 	return ..()
+
+//not making a new file for this, sorry!
+/datum/action/item_action/toggle_unfriendly_fire
+	name = "Toggle Friendly Fire"
+	desc = "Toggles if the club's blasts cause friendly fire."
+	button_icon = 'icons/mob/actions/actions_items.dmi'
+	button_icon_state = "vortex_ff_on"
