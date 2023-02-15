@@ -1,4 +1,3 @@
-
 /mob/living/simple_animal/hostile/regalrat
 	name = "feral regal rat"
 	desc = "An evolved rat, created through some strange science. They lead nearby rats with deadly efficiency to protect their kingdom. Not technically a king."
@@ -143,7 +142,7 @@
 
 	if (target.reagents && target.is_injectable(src, allowmobs = TRUE) && !istype(target, /obj/item/food/cheese))
 		src.visible_message(span_warning("[src] starts licking [target] passionately!"),span_notice("You start licking [target]..."))
-		if (do_mob(src, target, 2 SECONDS, interaction_key = REGALRAT_INTERACTION))
+		if (do_after(src, 2 SECONDS, target, interaction_key = REGALRAT_INTERACTION))
 			if(rat_cum == TRUE)
 				target.reagents.add_reagent(/datum/reagent/funny_rat_spit,rand(1,3),no_react = TRUE)
 				to_chat(src, span_notice("You finish licking [target]."))
