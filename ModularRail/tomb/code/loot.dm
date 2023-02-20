@@ -111,7 +111,7 @@
 	var/bolt_power = 50000
 
 /obj/item/necromancer_sword/attack_self(mob/user)
-	if(!iscarbon(user) || !user.canUseTopic(src, be_close = TRUE, no_dexterity = FALSE, no_tk = TRUE))
+	if(!iscarbon(user) || !user.can_perform_action(src, FORBID_TELEKINESIS_REACH))
 		return
 	if(primed)
 		to_chat(user, "<span class='notice'>You let the energy dissipate.</span>")

@@ -158,8 +158,6 @@
 	if(current_eyes)
 		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
 		current_eyes.sight_flags = SEE_MOBS
-		current_eyes.see_in_dark = 8
-		current_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	bloodsuckeruser.update_sight()
 
 	// Step 3

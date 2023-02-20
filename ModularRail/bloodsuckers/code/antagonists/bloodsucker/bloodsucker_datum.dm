@@ -376,8 +376,6 @@
 	if(user_eyes)
 		user_eyes.flash_protect += 1
 		user_eyes.sight_flags = 0
-		user_eyes.see_in_dark = 2
-		user_eyes.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
 	user.update_sight()
 
 /// Name shown on antag list
