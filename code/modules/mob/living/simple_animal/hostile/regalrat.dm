@@ -463,7 +463,7 @@
 	..()
 
 /datum/reagent/funny_rat_spit
-	name = "Rat fluid"
+	name = "Rat pheromones"
 	description = "Something coming from a rat. Dear god! Who knows where it's been!"
 	reagent_state = LIQUID
 	color = "#d861ba"
