@@ -137,7 +137,7 @@
 
 /datum/action/item_action/chameleon/change
 	name = "Chameleon Change"
-	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED
 	var/list/chameleon_blacklist = list() //This is a typecache
 	var/list/chameleon_list = list()
 	var/chameleon_type = null
@@ -369,28 +369,28 @@
 /obj/item/clothing/under/chameleon
 //starts off as black
 	name = "black jumpsuit"
+	desc = "It's a plain jumpsuit. It has a small dial on the wrist."
 	icon_state = "jumpsuit"
 	greyscale_colors = "#3f3f3f"
 	greyscale_config = /datum/greyscale_config/jumpsuit
-	greyscale_config_inhand_left = /datum/greyscale_config/jumpsuit_inhand_left
-	greyscale_config_inhand_right = /datum/greyscale_config/jumpsuit_inhand_right
-	greyscale_config_worn = /datum/greyscale_config/jumpsuit_worn
-	desc = "It's a plain jumpsuit. It has a small dial on the wrist."
+	greyscale_config_worn = /datum/greyscale_config/jumpsuit/worn
+	greyscale_config_inhand_left = /datum/greyscale_config/jumpsuit/inhand_left
+	greyscale_config_inhand_right = /datum/greyscale_config/jumpsuit/inhand_right
 	sensor_mode = SENSOR_OFF //Hey who's this guy on the Syndicate Shuttle??
 	random_sensor = FALSE
 	resistance_flags = NONE
 	can_adjust = FALSE
-	armor_type = /datum/armor/under_chameleon
+	armor_type = /datum/armor/clothing_under/chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
-/datum/armor/under_chameleon
+/datum/armor/clothing_under/chameleon
 	melee = 10
 	bullet = 10
 	laser = 10
-	bio = 10
 	fire = 50
 	acid = 50
+	wound = 10
 
 /obj/item/clothing/under/chameleon/Initialize(mapload)
 	. = ..()
@@ -668,12 +668,14 @@
 
 /obj/item/clothing/shoes/chameleon
 	name = "black shoes"
+	desc = "A pair of black shoes."
 	icon_state = "sneakers"
 	inhand_icon_state = "sneakers_back"
 	greyscale_colors = "#545454#ffffff"
 	greyscale_config = /datum/greyscale_config/sneakers
-	greyscale_config_worn = /datum/greyscale_config/sneakers_worn
-	desc = "A pair of black shoes."
+	greyscale_config_worn = /datum/greyscale_config/sneakers/worn
+	greyscale_config_inhand_left = /datum/greyscale_config/sneakers/inhand_left
+	greyscale_config_inhand_right = /datum/greyscale_config/sneakers/inhand_right
 	resistance_flags = NONE
 	armor_type = /datum/armor/shoes_chameleon
 
@@ -690,7 +692,7 @@
 /obj/item/clothing/shoes/chameleon/Initialize(mapload)
 	. = ..()
 
-	create_storage(type = /datum/storage/pockets/shoes)
+	create_storage(storage_type = /datum/storage/pockets/shoes)
 
 	chameleon_action = new(src)
 	chameleon_action.chameleon_type = /obj/item/clothing/shoes
@@ -710,7 +712,7 @@
 	chameleon_action.emp_randomise()
 
 /obj/item/clothing/shoes/chameleon/noslip
-	clothing_flags = NOSLIP
+	clothing_traits = list(TRAIT_NO_SLIP_WATER)
 	can_be_bloody = FALSE
 
 /obj/item/clothing/shoes/chameleon/noslip/broken/Initialize(mapload)
@@ -1052,3 +1054,5 @@
 	var/obj/item/gun/new_gun = new guntype(src)
 	set_chameleon_gun(new_gun)
 	qdel(new_gun)
+
+#undef EMP_RANDOMISE_TIME

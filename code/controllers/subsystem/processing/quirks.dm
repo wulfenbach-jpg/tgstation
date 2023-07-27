@@ -27,7 +27,14 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 		list("Bad Touch", "Friendly"),
 		list("Extrovert", "Introvert"),
 		list("Prosthetic Limb", "Quadruple Amputee", "Body Purist"),
-		list("Quadruple Amputee", "Paraplegic", "Frail"),
+		list("Prosthetic Organ", "Tin Man", "Body Purist"),
+		list("Quadruple Amputee", "Paraplegic", "Hemiplegic"),
+		list("Quadruple Amputee", "Frail"),
+		list("Social Anxiety", "Mute"),
+		list("Mute", "Soft-Spoken"),
+		list("Stormtrooper Aim", "Big Hands"),
+		list("Bilingual", "Foreigner"),
+		list("Spacer", "Paraplegic")
 	)
 
 /datum/controller/subsystem/processing/quirks/Initialize()
@@ -201,5 +208,6 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 
 	return new_quirks
 
+#undef EXP_ASSIGN_WAYFINDER
 #undef RANDOM_QUIRK_BONUS
 #undef MINIMUM_RANDOM_QUIRKS

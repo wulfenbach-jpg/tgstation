@@ -56,7 +56,6 @@
 	uniform = /obj/item/clothing/under/rank/civilian/head_of_personnel
 	backpack_contents = list(
 		/obj/item/melee/baton/telescopic = 1,
-		/obj/item/storage/box/ids = 1,
 		)
 	belt = /obj/item/modular_computer/pda/heads/hop
 	ears = /obj/item/radio/headset/heads/hop
@@ -66,7 +65,7 @@
 
 	chameleon_extras = list(
 		/obj/item/gun/energy/e_gun,
-		/obj/item/stamp/hop,
+		/obj/item/stamp/head/hop,
 		)
 
 /datum/outfit/job/hop/pre_equip(mob/living/carbon/human/H)

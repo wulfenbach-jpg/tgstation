@@ -12,12 +12,12 @@
 	var/spawn_time = 30 SECONDS
 	var/mob_types = list(/mob/living/basic/carp)
 	var/spawn_text = "emerges from"
-	var/faction = list("hostile")
+	var/faction = list(FACTION_HOSTILE)
 	var/spawner_type = /datum/component/spawner
 
 /obj/structure/spawner/Initialize(mapload)
 	. = ..()
-	AddComponent(spawner_type, mob_types, spawn_time, faction, spawn_text, max_mobs)
+	AddComponent(spawner_type, mob_types, spawn_time, max_mobs, faction, spawn_text)
 
 /obj/structure/spawner/attack_animal(mob/living/simple_animal/user, list/modifiers)
 	if(faction_check(faction, user.faction, FALSE) && !user.client)
@@ -43,7 +43,7 @@
 	spawn_time = 15 SECONDS
 	mob_types = list(/mob/living/simple_animal/hostile/skeleton)
 	spawn_text = "climbs out of"
-	faction = list("skeleton")
+	faction = list(FACTION_SKELETON)
 
 /obj/structure/spawner/clown
 	name = "Laughing Larry"
@@ -53,9 +53,20 @@
 	max_integrity = 200
 	max_mobs = 15
 	spawn_time = 15 SECONDS
-	mob_types = list(/mob/living/simple_animal/hostile/retaliate/clown, /mob/living/simple_animal/hostile/retaliate/clown/fleshclown, /mob/living/simple_animal/hostile/retaliate/clown/clownhulk, /mob/living/simple_animal/hostile/retaliate/clown/longface, /mob/living/simple_animal/hostile/retaliate/clown/clownhulk/chlown, /mob/living/simple_animal/hostile/retaliate/clown/clownhulk/honcmunculus, /mob/living/simple_animal/hostile/retaliate/clown/mutant/glutton, /mob/living/simple_animal/hostile/retaliate/clown/banana, /mob/living/simple_animal/hostile/retaliate/clown/honkling, /mob/living/simple_animal/hostile/retaliate/clown/lube)
+	mob_types = list(
+		/mob/living/simple_animal/hostile/retaliate/clown,
+		/mob/living/simple_animal/hostile/retaliate/clown/banana,
+		/mob/living/simple_animal/hostile/retaliate/clown/clownhulk,
+		/mob/living/simple_animal/hostile/retaliate/clown/clownhulk/chlown,
+		/mob/living/simple_animal/hostile/retaliate/clown/clownhulk/honcmunculus,
+		/mob/living/simple_animal/hostile/retaliate/clown/fleshclown,
+		/mob/living/simple_animal/hostile/retaliate/clown/mutant/glutton,
+		/mob/living/simple_animal/hostile/retaliate/clown/honkling,
+		/mob/living/simple_animal/hostile/retaliate/clown/longface,
+		/mob/living/simple_animal/hostile/retaliate/clown/lube,
+	)
 	spawn_text = "climbs out of"
-	faction = list("clown")
+	faction = list(FACTION_CLOWN)
 
 /obj/structure/spawner/mining
 	name = "monster den"
@@ -65,8 +76,14 @@
 	max_mobs = 3
 	icon = 'icons/mob/simple/lavaland/nest.dmi'
 	spawn_text = "crawls out of"
-	mob_types = list(/mob/living/simple_animal/hostile/asteroid/goldgrub, /mob/living/simple_animal/hostile/asteroid/goliath, /mob/living/simple_animal/hostile/asteroid/hivelord, /mob/living/simple_animal/hostile/asteroid/basilisk, /mob/living/basic/wumborian_fugu)
-	faction = list("mining")
+	mob_types = list(
+		/mob/living/basic/mining/goliath/ancient,
+		/mob/living/basic/wumborian_fugu,
+		/mob/living/simple_animal/hostile/asteroid/basilisk,
+		/mob/living/simple_animal/hostile/asteroid/goldgrub,
+		/mob/living/simple_animal/hostile/asteroid/hivelord,
+	)
+	faction = list(FACTION_MINING)
 
 /obj/structure/spawner/mining/goldgrub
 	name = "goldgrub den"
@@ -76,7 +93,7 @@
 /obj/structure/spawner/mining/goliath
 	name = "goliath den"
 	desc = "A den housing a nest of goliaths, oh god why?"
-	mob_types = list(/mob/living/simple_animal/hostile/asteroid/goliath)
+	mob_types = list(/mob/living/basic/mining/goliath/ancient)
 
 /obj/structure/spawner/mining/hivelord
 	name = "hivelord den"
@@ -102,8 +119,12 @@
 	max_mobs = 15
 	icon = 'icons/mob/simple/lavaland/nest.dmi'
 	spawn_text = "crawls through"
-	mob_types = list(/mob/living/basic/migo, /mob/living/basic/creature, /mob/living/basic/blankbody)
-	faction = list("nether")
+	mob_types = list(
+		/mob/living/basic/blankbody,
+		/mob/living/basic/creature,
+		/mob/living/basic/migo,
+	)
+	faction = list(FACTION_NETHER)
 
 /obj/structure/spawner/nether/Initialize(mapload)
 	. = ..()
@@ -125,11 +146,11 @@
 							span_userdanger("Touching the portal, you are quickly pulled through into a world of unimaginable horror!"))
 		contents.Add(user)
 
-/obj/structure/spawner/nether/process(delta_time)
+/obj/structure/spawner/nether/process(seconds_per_tick)
 	for(var/mob/living/living_mob in contents)
 		if(living_mob)
 			playsound(src, 'sound/magic/demon_consume.ogg', 50, TRUE)
-			living_mob.adjustBruteLoss(60 * delta_time)
+			living_mob.adjustBruteLoss(60 * seconds_per_tick)
 			new /obj/effect/gibspawner/generic(get_turf(living_mob), living_mob)
 			if(living_mob.stat == DEAD)
 				var/mob/living/basic/blankbody/newmob = new(loc)

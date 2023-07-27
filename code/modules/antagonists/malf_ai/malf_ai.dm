@@ -38,7 +38,7 @@
 
 	add_law_zero()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/malf.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
-	owner.current.grant_language(/datum/language/codespeak, TRUE, TRUE, LANGUAGE_MALF)
+	owner.current.grant_language(/datum/language/codespeak, source = LANGUAGE_MALF)
 
 	return ..()
 
@@ -151,6 +151,7 @@
 	var/law_borg = "Accomplish your AI's objectives at all costs."
 
 	malf_ai.set_zeroth_law(law, law_borg)
+	malf_ai.laws.protected_zeroth = TRUE
 	malf_ai.set_syndie_radio()
 
 	to_chat(malf_ai, "Your radio has been upgraded! Use :t to speak on an encrypted channel with Syndicate Agents!")

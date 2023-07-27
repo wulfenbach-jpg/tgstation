@@ -24,7 +24,7 @@
 	unsuitable_cold_damage = 0
 	unsuitable_heat_damage = 0
 
-	faction = list("faithless")
+	faction = list(FACTION_FAITHLESS)
 	gold_core_spawnable = HOSTILE_SPAWN
 
 	ai_controller = /datum/ai_controller/basic_controller/faithless
@@ -65,10 +65,9 @@
 	/// How long do we paralyze a target for if we attack them
 	var/paralyze_duration = 2 SECONDS
 
-/datum/ai_behavior/basic_melee_attack/faithless/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+/datum/ai_behavior/basic_melee_attack/faithless/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
-	var/datum/weakref/weak_target = controller.blackboard[target_key]
-	var/atom/target = weak_target?.resolve()
+	var/atom/target = controller.blackboard[target_key]
 	var/mob/living/living_pawn = controller.pawn
 
 	if(!isliving(target))

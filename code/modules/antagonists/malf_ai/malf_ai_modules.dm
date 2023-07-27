@@ -140,11 +140,19 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 /datum/ai_module/destructive/nuke_station
 	name = "Doomsday Device"
 	description = "Activate a weapon that will disintegrate all organic life on the station after a 450 second delay. \
-		Can only be used while on the station, will fail if your core is moved off station or destroyed."
+		Can only be used while on the station, will fail if your core is moved off station or destroyed. \
+		Obtaining control of the weapon will be easier if Head of Staff office APCs are already under your control."
 	cost = 130
 	one_purchase = TRUE
 	power_type = /datum/action/innate/ai/nuke_station
 	unlock_text = span_notice("You slowly, carefully, establish a connection with the on-station self-destruct. You can now activate it at any time.")
+	///List of areas that grant discounts. "heads_quarters" will match any head of staff office.
+	var/list/discount_areas = list(
+		/area/station/command/heads_quarters,
+		/area/station/ai_monitored/command/nuke_storage
+	)
+	///List of hacked head of staff office areas. Includes the vault too. Provides a 20 PT discount per (Min 50 PT cost)
+	var/list/hacked_command_areas = list()
 
 /datum/action/innate/ai/nuke_station
 	name = "Doomsday Device"
@@ -253,6 +261,14 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 		owner_AI.doomsday_device.start()
 		for(var/obj/item/pinpointer/nuke/P in GLOB.pinpointer_list)
 			P.switch_mode_to(TRACK_MALF_AI) //Pinpointers start tracking the AI wherever it goes
+
+		notify_ghosts(
+			"[owner_AI] has activated a Doomsday Device!",
+			source = owner_AI,
+			header = "DOOOOOOM!!!",
+			action = NOTIFY_ORBIT,
+		)
+
 		qdel(src)
 
 /obj/machinery/doomsday_device
@@ -307,7 +323,6 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 		borg.lamp_doom = TRUE
 		borg.toggle_headlamp(FALSE, TRUE) //forces borg lamp to update
 
-
 /obj/machinery/doomsday_device/proc/seconds_remaining()
 	. = max(0, (round((detonation_timer - world.time) / 10)))
 
@@ -358,7 +373,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 
 /datum/action/innate/ai/lockdown
 	name = "Lockdown"
-	desc = "Closes, bolts, and depowers every airlock, firelock, and blast door on the station. After 90 seconds, they will reset themselves."
+	desc = "Closes, bolts, and electrifies every airlock, firelock, and blast door on the station. After 90 seconds, they will reset themselves."
 	button_icon_state = "lockdown"
 	uses = 1
 	/// Badmin / exploit abuse prevention.
@@ -370,7 +385,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 
 /datum/action/innate/ai/lockdown/Activate()
 	hack_in_progress = TRUE
-	for(var/obj/machinery/door/locked_down as anything in GLOB.airlocks)
+	for(var/obj/machinery/door/locked_down as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door))
 		if(QDELETED(locked_down) || !is_station_level(locked_down.z))
 			continue
 		INVOKE_ASYNC(locked_down, TYPE_PROC_REF(/obj/machinery/door, hostile_lockdown), owner)
@@ -390,7 +405,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 
 /// For Lockdown malf AI ability. Opens all doors on the station.
 /proc/_malf_ai_undo_lockdown()
-	for(var/obj/machinery/door/locked_down as anything in GLOB.airlocks)
+	for(var/obj/machinery/door/locked_down as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door))
 		if(QDELETED(locked_down) || !is_station_level(locked_down.z))
 			continue
 		INVOKE_ASYNC(locked_down, TYPE_PROC_REF(/obj/machinery/door, disable_lockdown))
@@ -550,7 +565,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	desc = "[desc] It has [uses] use\s remaining."
 
 /datum/action/innate/ai/blackout/Activate()
-	for(var/obj/machinery/power/apc/apc in GLOB.apcs_list)
+	for(var/obj/machinery/power/apc/apc as anything in SSmachines.get_machines_by_type(/obj/machinery/power/apc))
 		if(prob(30 * apc.overload))
 			apc.overload_lighting()
 		else
@@ -685,7 +700,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	uses = 1
 
 /datum/action/innate/ai/break_air_alarms/Activate()
-	for(var/obj/machinery/airalarm/AA in GLOB.machines)
+	for(var/obj/machinery/airalarm/AA in GLOB.air_alarms)
 		if(!is_station_level(AA.z))
 			continue
 		AA.obj_flags |= EMAGGED
@@ -711,12 +726,12 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	uses = 1
 
 /datum/action/innate/ai/break_fire_alarms/Activate()
-	for(var/obj/machinery/firealarm/bellman in GLOB.machines)
+	for(var/obj/machinery/firealarm/bellman as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/firealarm))
 		if(!is_station_level(bellman.z))
 			continue
 		bellman.obj_flags |= EMAGGED
 		bellman.update_appearance()
-	for(var/obj/machinery/door/firedoor/firelock in GLOB.machines)
+	for(var/obj/machinery/door/firedoor/firelock as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/firedoor))
 		if(!is_station_level(firelock.z))
 			continue
 		firelock.emag_act(owner_AI, src)
@@ -741,7 +756,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	uses = 1
 
 /datum/action/innate/ai/emergency_lights/Activate()
-	for(var/obj/machinery/light/L in GLOB.machines)
+	for(var/obj/machinery/light/L as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/light))
 		if(is_station_level(L.z))
 			L.no_low_power = TRUE
 			INVOKE_ASYNC(L, TYPE_PROC_REF(/obj/machinery/light/, update), FALSE)
@@ -842,7 +857,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 	unlock_sound = 'sound/items/rped.ogg'
 
 /datum/ai_module/upgrade/upgrade_turrets/upgrade(mob/living/silicon/ai/AI)
-	for(var/obj/machinery/porta_turret/ai/turret in GLOB.machines)
+	for(var/obj/machinery/porta_turret/ai/turret as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/porta_turret/ai))
 		turret.AddElement(/datum/element/empprotection, EMP_PROTECT_SELF | EMP_PROTECT_WIRES | EMP_PROTECT_CONTENTS)
 		turret.max_integrity = 200
 		turret.repair_damage(200)
@@ -998,6 +1013,101 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 				owner.verb_yell = say_verb
 		if("name")
 			say_name = params["name"]
+
+/datum/ai_module/utility/emag
+	name = "Targetted Safeties Override"
+	description = "Allows you to disable the safeties of any machinery on the station, provided you can access it."
+	cost = 20
+	power_type = /datum/action/innate/ai/ranged/emag
+	unlock_text = span_notice("You download an illicit software package from a syndicate database leak and integrate it into your firmware, fighting off a few kernel intrusions along the way.")
+	unlock_sound = SFX_SPARKS
+
+/datum/action/innate/ai/ranged/emag
+	name = "Targetted Safeties Override"
+	desc = "Allows you to effectively emag anything you click on."
+	button_icon = 'icons/obj/card.dmi'
+	button_icon_state = "emag"
+	uses = 7
+	auto_use_uses = FALSE
+	enable_text = span_notice("You load your syndicate software package to your most recent memory slot.")
+	disable_text = span_notice("You unload your syndicate software package.")
+	ranged_mousepointer = 'icons/effects/mouse_pointers/supplypod_target.dmi'
+
+/datum/action/innate/ai/ranged/emag/Destroy()
+	return ..()
+
+/datum/action/innate/ai/ranged/emag/New()
+	. = ..()
+	desc = "[desc] It has [uses] use\s remaining."
+
+/datum/action/innate/ai/ranged/emag/do_ability(mob/living/caller, atom/clicked_on)
+
+	// Only things with of or subtyped of any of these types may be remotely emagged
+	var/static/list/compatable_typepaths = list(
+		/obj/machinery,
+		/obj/structure,
+		/obj/item/radio/intercom,
+		/obj/item/modular_computer,
+		/mob/living/simple_animal/bot,
+		/mob/living/silicon,
+	)
+
+	if (!isAI(caller))
+		return FALSE
+	var/mob/living/silicon/ai/ai_caller = caller
+
+	if(ai_caller.incapacitated())
+		unset_ranged_ability(caller)
+		return FALSE
+
+	if (!ai_caller.can_see(clicked_on))
+		clicked_on.balloon_alert(ai_caller, "can't see!")
+		return FALSE
+
+	if (ismachinery(clicked_on))
+		var/obj/machinery/clicked_machine = clicked_on
+		if (!clicked_machine.is_operational)
+			clicked_machine.balloon_alert(ai_caller, "not operational!")
+			return FALSE
+
+	if (!(is_type_in_list(clicked_on, compatable_typepaths)))
+		clicked_on.balloon_alert(ai_caller, "incompatable!")
+		return FALSE
+
+	if (istype(clicked_on, /obj/machinery/door/airlock)) // I HATE THIS CODE SO MUCHHH
+		var/obj/machinery/door/airlock/clicked_airlock = clicked_on
+		if (!clicked_airlock.canAIControl(ai_caller))
+			clicked_airlock.balloon_alert(ai_caller, "unable to interface!")
+			return FALSE
+
+	if (istype(clicked_on, /obj/machinery/airalarm))
+		var/obj/machinery/airalarm/alarm = clicked_on
+		if (alarm.aidisabled)
+			alarm.balloon_alert(ai_caller, "unable to interface!")
+			return FALSE
+
+	if (istype(clicked_on, /obj/machinery/power/apc))
+		var/obj/machinery/power/apc/clicked_apc = clicked_on
+		if (clicked_apc.aidisabled)
+			clicked_apc.balloon_alert(ai_caller, "unable to interface!")
+			return FALSE
+
+	if (!clicked_on.emag_act(ai_caller))
+		to_chat(ai_caller, span_warning("Hostile software insertion failed!")) // lets not overlap balloon alerts
+		return FALSE
+
+	to_chat(ai_caller, span_notice("Software package successfully injected."))
+
+	adjust_uses(-1)
+	if(uses)
+		desc = "[initial(desc)] It has [uses] use\s remaining."
+		build_all_button_icons()
+	else
+		unset_ranged_ability(ai_caller, span_warning("Out of uses!"))
+
+	return TRUE
+
+
 
 
 #undef DEFAULT_DOOMSDAY_TIMER

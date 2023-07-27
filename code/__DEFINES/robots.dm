@@ -86,8 +86,8 @@
 #define BOT_MODE_AUTOPATROL (1<<1)
 ///The Bot is currently allowed to be remote controlled by Silicon.
 #define BOT_MODE_REMOTE_ENABLED (1<<2)
-///The Bot is allowed to have a pAI placed in control of it.
-#define BOT_MODE_PAI_CONTROLLABLE (1<<3)
+///The Bot is allowed to have a ghost placed in control of it.
+#define BOT_MODE_CAN_BE_SAPIENT (1<<3)
 
 //Bot cover defines indicating the Bot's status
 ///The Bot's cover is open and can be modified/emagged by anyone.
@@ -217,3 +217,9 @@ DEFINE_BITFIELD(janitor_mode_flags, list(
 	"CLEANBOT_CLEAN_PESTS" = CLEANBOT_CLEAN_PESTS,
 	"CLEANBOT_CLEAN_DRAWINGS" = CLEANBOT_CLEAN_DRAWINGS,
 ))
+
+//bot navigation beacon defines
+#define NAVBEACON_PATROL_MODE "patrol"
+#define NAVBEACON_PATROL_NEXT "next_patrol"
+#define NAVBEACON_DELIVERY_MODE "delivery"
+#define NAVBEACON_DELIVERY_DIRECTION "dir"

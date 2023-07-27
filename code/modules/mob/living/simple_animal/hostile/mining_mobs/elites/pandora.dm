@@ -95,7 +95,7 @@
 		if(AOE_SQUARES)
 			aoe_squares(target)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/Life(delta_time = SSMOBS_DT, times_fired)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	. = ..()
 	if(health >= maxHealth * 0.5)
 		cooldown_time = 2 SECONDS
@@ -180,16 +180,17 @@
 /obj/item/clothing/accessory/pandora_hope
 	name = "Hope"
 	desc = "Found at the bottom of Pandora. After all the evil was released, this was the only thing left inside."
-	icon = 'icons/obj/lavaland/elite_trophies.dmi'
+	icon = 'icons/obj/mining_zones/elite_trophies.dmi'
 	icon_state = "hope"
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/accessory/pandora_hope/on_uniform_equip(obj/item/clothing/under/U, user)
-	var/mob/living/L = user
-	if(L?.mind)
-		L.add_mood_event("hope_lavaland", /datum/mood_event/hope_lavaland)
+/obj/item/clothing/accessory/pandora_hope/accessory_equipped(obj/item/clothing/under/clothes, mob/living/user)
+	user.add_mood_event("hope_lavaland", /datum/mood_event/hope_lavaland)
 
-/obj/item/clothing/accessory/pandora_hope/on_uniform_dropped(obj/item/clothing/under/U, user)
-	var/mob/living/L = user
-	if(L?.mind)
-		L.clear_mood_event("hope_lavaland")
+/obj/item/clothing/accessory/pandora_hope/accessory_dropped(obj/item/clothing/under/clothes, mob/living/user)
+	user.clear_mood_event("hope_lavaland")
+
+#undef SINGULAR_SHOT
+#undef MAGIC_BOX
+#undef PANDORA_TELEPORT
+#undef AOE_SQUARES

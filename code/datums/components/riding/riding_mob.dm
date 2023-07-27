@@ -77,17 +77,7 @@
 	if(can_be_driven)
 		//let the player take over if they should be controlling movement
 		ADD_TRAIT(ridden, TRAIT_AI_PAUSED, REF(src))
-	if(rider.pulling == ridden)
-		rider.stop_pulling()
-	RegisterSignal(rider, COMSIG_LIVING_TRY_PULL, PROC_REF(on_rider_try_pull))
 	return ..()
-
-/datum/component/riding/creature/proc/on_rider_try_pull(mob/living/rider_pulling, atom/movable/target, force)
-	SIGNAL_HANDLER
-	if(target == parent)
-		var/mob/living/ridden = parent
-		ridden.balloon_alert(rider_pulling, "not while riding it!")
-		return COMSIG_LIVING_CANCEL_PULL
 
 /datum/component/riding/creature/vehicle_mob_unbuckle(mob/living/formerly_ridden, mob/living/former_rider, force = FALSE)
 	if(istype(formerly_ridden) && istype(former_rider))
@@ -96,7 +86,6 @@
 	remove_abilities(former_rider)
 	if(!formerly_ridden.buckled_mobs.len)
 		REMOVE_TRAIT(formerly_ridden, TRAIT_AI_PAUSED, REF(src))
-	UnregisterSignal(former_rider, COMSIG_LIVING_TRY_PULL)
 	// We gotta reset those layers at some point, don't we?
 	former_rider.layer = MOB_LAYER
 	formerly_ridden.layer = MOB_LAYER
@@ -122,7 +111,7 @@
 	var/atom/movable/movable_parent = parent
 	movable_parent.unbuckle_mob(rider)
 
-	if(!isanimal(movable_parent) && !iscyborg(movable_parent))
+	if(!iscyborg(movable_parent) && !isanimal_or_basicmob(movable_parent))
 		return
 
 	var/turf/target = get_edge_target_turf(movable_parent, movable_parent.dir)
@@ -141,7 +130,7 @@
 /// If we're a cyborg or animal and we spin, we yeet whoever's on us off us
 /datum/component/riding/creature/proc/check_emote(mob/living/user, datum/emote/emote)
 	SIGNAL_HANDLER
-	if((!iscyborg(user) && !isanimal(user)) || !istype(emote, /datum/emote/spin))
+	if((!iscyborg(user) && !isanimal_or_basicmob(user)) || !istype(emote, /datum/emote/spin))
 		return
 
 	for(var/mob/yeet_mob in user.buckled_mobs)
@@ -389,12 +378,24 @@
 
 /datum/component/riding/creature/goliath
 	keytype = /obj/item/key/lasso
+	vehicle_move_delay = 4
+
+/datum/component/riding/creature/goliath/Initialize(mob/living/riding_mob, force, ride_check_flags, potion_boost)
+	. = ..()
+	var/mob/living/basic/mining/goliath/goliath = parent
+	goliath.RemoveElement(/datum/element/move_cooldown, move_delay = goliath.movement_delay)
+
+/datum/component/riding/creature/goliath/Destroy(force, silent)
+	var/mob/living/basic/mining/goliath/goliath = parent
+	goliath.AddElement(/datum/element/move_cooldown, move_delay = goliath.movement_delay)
+	return ..()
 
 /datum/component/riding/creature/goliath/handle_specials()
 	. = ..()
-	set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)))
+	set_vehicle_offsets(list(TEXT_NORTH = list(-12, 0), TEXT_SOUTH = list(-12, 0), TEXT_EAST = list(-12, 0), TEXT_WEST = list(-12, 0)))
+	set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 12), TEXT_SOUTH = list(0, 12), TEXT_EAST = list(-4, 12), TEXT_WEST = list(3, 12)))
 	set_vehicle_dir_layer(SOUTH, ABOVE_MOB_LAYER)
-	set_vehicle_dir_layer(NORTH, OBJ_LAYER)
+	set_vehicle_dir_layer(NORTH, ABOVE_MOB_LAYER)
 	set_vehicle_dir_layer(EAST, OBJ_LAYER)
 	set_vehicle_dir_layer(WEST, OBJ_LAYER)
 

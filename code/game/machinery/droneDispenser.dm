@@ -6,7 +6,7 @@
 	name = "drone shell dispenser"
 	desc = "A hefty machine that, when supplied with iron and glass, will periodically create a drone shell. Does not need to be manually operated."
 
-	icon = 'icons/obj/machines/droneDispenser.dmi'
+	icon = 'icons/obj/machines/drone_dispenser.dmi'
 	icon_state = "on"
 	density = TRUE
 
@@ -21,8 +21,8 @@
 
 	var/list/using_materials
 	var/starting_amount = 0
-	var/iron_cost = 1000
-	var/glass_cost = 1000
+	var/iron_cost =HALF_SHEET_MATERIAL_AMOUNT
+	var/glass_cost =HALF_SHEET_MATERIAL_AMOUNT
 	var/power_used = 1000
 
 	var/mode = DRONE_READY
@@ -50,10 +50,11 @@
 
 /obj/machinery/drone_dispenser/Initialize(mapload)
 	. = ..()
-	var/datum/component/material_container/materials = AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass), MINERAL_MATERIAL_AMOUNT * MAX_STACK_SIZE * 2, MATCONTAINER_EXAMINE|BREAKDOWN_FLAGS_DRONE_DISPENSER, allowed_items=/obj/item/stack)
+	var/datum/component/material_container/materials = AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass), SHEET_MATERIAL_AMOUNT * MAX_STACK_SIZE * 2, MATCONTAINER_EXAMINE|BREAKDOWN_FLAGS_DRONE_DISPENSER, allowed_items=/obj/item/stack)
 	materials.insert_amount_mat(starting_amount)
 	materials.precise_insertion = TRUE
 	using_materials = list(/datum/material/iron = iron_cost, /datum/material/glass = glass_cost)
+	REGISTER_REQUIRED_MAP_ITEM(1, 1)
 
 /obj/machinery/drone_dispenser/preloaded
 	starting_amount = 5000
@@ -80,8 +81,8 @@
 	dispense_type = /obj/effect/mob_spawn/ghost_role/drone/snowflake
 	end_create_message = "dispenses a snowflake drone shell."
 	// Those holoprojectors aren't cheap
-	iron_cost = 2000
-	glass_cost = 2000
+	iron_cost =SHEET_MATERIAL_AMOUNT
+	glass_cost =SHEET_MATERIAL_AMOUNT
 	power_used = 2000
 	starting_amount = 10000
 
@@ -107,7 +108,7 @@
 /obj/machinery/drone_dispenser/hivebot
 	name = "hivebot fabricator"
 	desc = "A large, bulky machine that whirs with activity, steam hissing from vents in its sides."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/machines/hivebot_fabricator.dmi'
 	icon_state = "hivebot_fab"
 	icon_off = "hivebot_fab"
 	icon_on = "hivebot_fab"
@@ -228,7 +229,7 @@
 			span_notice("[user] begins patching up [src] with [I]."),
 			span_notice("You begin restoring the damage to [src]..."))
 
-		if(!I.use_tool(src, user, 40, volume=50, amount=1))
+		if(!I.use_tool(src, user, 40, volume=50))
 			return
 
 		user.visible_message(
