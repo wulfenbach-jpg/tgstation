@@ -71,7 +71,7 @@
 	singularity?.grav_pull = 1
 
 /obj/singularity/academy/process(delta_time)
-	if(DT_PROB(0.5, delta_time))
+	if(SPT_PROB(0.5, delta_time))
 		mezzer()
 
 /obj/item/clothing/glasses/meson/truesight
@@ -84,7 +84,7 @@
 /obj/structure/academy_wizard_spawner
 	name = "Academy Defensive System"
 	desc = "Made by Abjuration, Inc."
-	icon = 'icons/obj/cult/structures.dmi'
+	icon = 'icons/obj/antags/cult/structures.dmi'
 	icon_state = "forge"
 	anchored = TRUE
 	max_integrity = 200

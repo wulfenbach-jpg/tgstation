@@ -4,12 +4,15 @@
 	icon_state = "duffel-abductor"
 	inhand_icon_state = "duffel-syndie"
 	worn_icon_state = "duffel-syndie"
+	storage_type = /datum/storage/duffel/debug
 	slowdown = 0
 
-/obj/item/storage/backpack/duffelbag/debug_surgery/Initialize(mapload)
-	. = ..()
-	create_storage(max_slots = 1.#INF, max_specific_storage = WEIGHT_CLASS_GIGANTIC, max_total_storage = 1.#INF, numerical_stacking = 1, type = /datum/storage)
-	atom_storage.allow_big_nesting = TRUE
+/datum/storage/duffel/debug
+	max_total_storage = 1.#INF
+	max_slots = 1.#INF
+	max_specific_storage = WEIGHT_CLASS_GIGANTIC
+	numerical_stacking = TRUE
+	allow_big_nesting = TRUE
 
 /obj/item/surgical_processor/debug
 	name = "debug surgical processor"
@@ -31,5 +34,5 @@
 	new /obj/item/cautery/alien(src)
 	new /obj/item/surgical_drapes(src)
 	new /obj/item/blood_filter(src)
-	new /obj/item/stack/medical/bone_gel/four(src)
+	new /obj/item/stack/medical/bone_gel(src)
 	new /obj/item/surgical_processor/debug(src)

@@ -25,7 +25,7 @@
 		message_admins("[user ? ADMIN_LOOKUPFLW(user):"Unknown"] has opened the tomb gate.")
 		log_game("[user ? key_name(user) : "Unknown"] opened the tomb gate.")
 
-		var/sound/alarm_sound = sound('sound/creatures/legion_death_far.ogg')
+		var/sound/alarm_sound = sound('ModularRail/tomb/sound/legion_death_far.ogg')
 		for(var/mob/M in GLOB.player_list) // EVERYONE gets alerted.
 			to_chat(M, "<span class='userdanger'>The seal of damnation has been removed! The curse that inhabits those lands is now free!</span>")
 			M.playsound_local(T, null, 40, FALSE, 0, FALSE, pressure_affected = FALSE, sound_to_use = alarm_sound)

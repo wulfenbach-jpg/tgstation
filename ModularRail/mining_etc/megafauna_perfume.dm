@@ -1,7 +1,7 @@
 /obj/item/megafauna_perfume
 	name = "megafauna perfume"
 	desc = "A bottle of exotic reagents that draw megafauna into the area when aerosolized."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "vial"
 	var/turf/spawning_turf
 	var/megafauna_choice

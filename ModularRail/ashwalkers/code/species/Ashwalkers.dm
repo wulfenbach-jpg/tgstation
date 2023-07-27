@@ -1,17 +1,24 @@
+#define ASHWALKER_BRUTE_MODIFIER 0.8
+#define ASHWALKER_BURN_MODIFIER 0.9
+
 /datum/species/lizard/ashwalker
-	mutanteyes = /obj/item/organ/internal/eyes/night_vision
-	burnmod = 0.7
-	brutemod = 0.8
+	mutanteyes = /obj/item/organ/internal/eyes/night_vision/ashwalker
+	bodypart_overrides = list(
+		BODY_ZONE_HEAD = /obj/item/bodypart/head/lizard/ashwalker,
+		BODY_ZONE_CHEST = /obj/item/bodypart/chest/lizard/ashwalker,
+		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/lizard/ashwalker,
+		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/lizard/ashwalker,
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/lizard/ashwalker,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard/ashwalker,
+	)
 
 /datum/species/lizard/ashwalker/on_species_gain(mob/living/carbon/carbon_target, datum/species/old_species)
 	. = ..()
-	ADD_TRAIT(carbon_target, TRAIT_ASHSTORM_IMMUNE, SPECIES_TRAIT)
 	RegisterSignal(carbon_target, COMSIG_MOB_ITEM_ATTACK, PROC_REF(mob_attack))
 	carbon_target.AddComponent(/datum/component/ash_age)
 
 /datum/species/lizard/ashwalker/on_species_loss(mob/living/carbon/carbon_target)
 	. = ..()
-	REMOVE_TRAIT(carbon_target, TRAIT_ASHSTORM_IMMUNE, SPECIES_TRAIT)
 	UnregisterSignal(carbon_target, COMSIG_MOB_ITEM_ATTACK)
 
 /datum/species/lizard/ashwalker/proc/mob_attack(datum/source, mob/mob_target, mob/user)
@@ -26,7 +33,7 @@
 	ashie_damage.register_mob_damage(living_target)
 
 /**
- * 20 minutes = speed
+ * 20 minutes = ash storm immunity
  * 40 minutes = armor
  * 60 minutes = base punch
  * 80 minutes = lavaproof
@@ -52,7 +59,7 @@
 	evo_time = world.time
 	// when the rune successfully completes the age ritual, it will send the signal... do the proc when we receive the signal
 	RegisterSignal(human_target, COMSIG_RUNE_EVOLUTION, PROC_REF(check_evolution))
-	RegisterSignal(human_target, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(human_target, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 
 /datum/component/ash_age/proc/check_evolution()
 	SIGNAL_HANDLER
@@ -67,10 +74,10 @@
 	var/datum/species/species_target = human_target.dna.species
 	switch(current_stage)
 		if(1)
-			human_target.add_movespeed_modifier(/datum/movespeed_modifier/ash_aged)
-			to_chat(human_target, span_notice("Your body seems lighter..."))
+			ADD_TRAIT(human_target, TRAIT_ASHSTORM_IMMUNE, REF(src))
+			to_chat(human_target, span_notice("The biting wind seems to sting less..."))
 		if(2)
-			species_target.armor += 10
+			species_target.damage_modifier += 10
 			to_chat(human_target, span_notice("Your body seems to be sturdier..."))
 		if(3)
 			var/obj/item/bodypart/arm/left/left_arm = human_target.get_bodypart(BODY_ZONE_L_ARM)
@@ -95,8 +102,6 @@
 		if(6 to INFINITY)
 			to_chat(human_target, span_warning("You have already reached the pinnacle of your current body!"))
 
-/datum/movespeed_modifier/ash_aged
-	multiplicative_slowdown = -0.2
 
 /datum/component/ash_age/proc/on_examine(atom/target_atom, mob/user, list/examine_list)
 	SIGNAL_HANDLER
@@ -104,3 +109,36 @@
 		examine_list += span_notice("[human_target] has not yet reached the age for evolving.")
 		return
 	examine_list += span_warning("[human_target] has reached the age for evolving!")
+
+/obj/item/organ/internal/eyes/night_vision/ashwalker
+	//give ashwalker darkvision a reddish-blue tint
+	low_light_cutoff = list(22, 12, 17)
+	medium_light_cutoff = list(33, 18, 26)
+	high_light_cutoff = list(75, 41, 61)
+
+/obj/item/bodypart/head/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+/obj/item/bodypart/chest/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+/obj/item/bodypart/arm/left/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+/obj/item/bodypart/arm/right/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+/obj/item/bodypart/leg/left/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+/obj/item/bodypart/leg/right/lizard/ashwalker
+	brute_modifier = ASHWALKER_BRUTE_MODIFIER
+	burn_modifier = ASHWALKER_BURN_MODIFIER
+
+#undef ASHWALKER_BRUTE_MODIFIER
+#undef ASHWALKER_BURN_MODIFIER

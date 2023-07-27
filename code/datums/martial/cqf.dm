@@ -23,10 +23,10 @@
 
 /datum/martial_art/cqf/teach(mob/living/cqf_user, make_temporary)
 	. = ..()
-	RegisterSignal(cqf_user, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
+	RegisterSignal(cqf_user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
 
 /datum/martial_art/cqf/on_remove(mob/living/cqf_user)
-	UnregisterSignal(cqf_user, COMSIG_PARENT_ATTACKBY)
+	UnregisterSignal(cqf_user, COMSIG_ATOM_ATTACKBY)
 	. = ..()
 
 /datum/martial_art/cqf/reset_streak(mob/living/new_target)

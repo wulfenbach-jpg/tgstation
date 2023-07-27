@@ -39,7 +39,7 @@
 		ranged_cooldown = world.time + ranged_cooldown_time
 		var/list/fire_zone = list()
 		for(var/i = 0 to 2)
-			playsound(T, 'sound/machines/clockcult/stargazer_activate.ogg', 50, 1)
+			playsound(T, 'ModularRail/tomb/sound/stargazer_activate.ogg', 50, 1)
 			fire_zone = spiral_range_turfs(i, T) - spiral_range_turfs(i-1, T)
 			for(var/turf/open/TC in fire_zone)
 				new /obj/effect/temp_visual/cult/turf/floor(TC)
@@ -47,7 +47,7 @@
 		SLEEP_CHECK_DEATH(2.5, src)
 		for(var/i = 0 to 2)
 			fire_zone = spiral_range_turfs(i, T) - spiral_range_turfs(i-1, T)
-			playsound(T, 'sound/machines/clockcult/ark_damage.ogg', 50, TRUE)
+			playsound(T, 'ModularRail/tomb/sound/ark_damage.ogg', 50, TRUE)
 			for(var/turf/open/TC in fire_zone)
 				new /obj/effect/temp_visual/cult/sparks(TC)
 				for(var/mob/living/L in TC)
