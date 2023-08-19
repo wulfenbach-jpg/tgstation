@@ -118,20 +118,18 @@
 	. = ..()
 	if(. && isliving(target))
 		var/mob/living/L = target
-		if(L.stat != DEAD && !HAS_TRAIT(L, TRAIT_GUTTED))
+		if(L.stat != DEAD)
 			if(!client && ranged && ranged_cooldown <= world.time)
 				OpenFire()
 
 			if(L.health <= HEALTH_THRESHOLD_DEAD && HAS_TRAIT(L, TRAIT_NODEATH)) //Nope, it still kills yall
 				devour(L)
-		else if(!HAS_TRAIT(L, TRAIT_GUTTED))
-			devour(L)
 		else
-			return FALSE
+			devour(L)
 
 /// Devours a target and restores health to the megafauna
 /mob/living/simple_animal/hostile/megafauna/proc/devour(mob/living/L)
-	if(!L)
+	if(!L || HAS_TRAIT(L, TRAIT_GUTTED))
 		return FALSE
 	visible_message(
 		span_danger("[src] devours [L]!"),
@@ -145,8 +143,15 @@
 	L.death() //make sure they die
 	RegisterSignal(L, COMSIG_MOB_STATCHANGE, PROC_REF(on_gutted_statchange))
 	ADD_TRAIT(L, TRAIT_GUTTED, src)
+	LoseTarget()
 	return TRUE
 
+/mob/living/simple_animal/hostile/megafauna/GiveTarget(new_target)
+	if(HAS_TRAIT(new_target, TRAIT_GUTTED))
+		return FALSE
+	return ..()
+
+/// When the mob's stat changes after being gutted by a megafauna (they're revived, etc)
 /mob/living/simple_animal/hostile/megafauna/proc/on_gutted_statchange(mob/living/L, new_stat)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(L, TRAIT_GUTTED, src)
