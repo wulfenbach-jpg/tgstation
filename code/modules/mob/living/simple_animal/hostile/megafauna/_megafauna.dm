@@ -118,14 +118,16 @@
 	. = ..()
 	if(. && isliving(target))
 		var/mob/living/L = target
-		if(L.stat != DEAD)
+		if(L.stat != DEAD && !HAS_TRAIT(L, TRAIT_GUTTED))
 			if(!client && ranged && ranged_cooldown <= world.time)
 				OpenFire()
 
 			if(L.health <= HEALTH_THRESHOLD_DEAD && HAS_TRAIT(L, TRAIT_NODEATH)) //Nope, it still kills yall
 				devour(L)
-		else
+		else if(!HAS_TRAIT(L, TRAIT_GUTTED))
 			devour(L)
+		else
+			return FALSE
 
 /// Devours a target and restores health to the megafauna
 /mob/living/simple_animal/hostile/megafauna/proc/devour(mob/living/L)
@@ -141,7 +143,14 @@
 	if(istype(carbonTarget))
 		carbonTarget.spill_organs(no_organs = TRUE)
 	L.death() //make sure they die
+	RegisterSignal(L, COMSIG_MOB_STATCHANGE, PROC_REF(on_gutted_statchange))
+	ADD_TRAIT(L, TRAIT_GUTTED, src)
 	return TRUE
+
+/mob/living/simple_animal/hostile/megafauna/proc/on_gutted_statchange(mob/living/L, new_stat)
+	SIGNAL_HANDLER
+	REMOVE_TRAIT(L, TRAIT_GUTTED, src)
+	UnregisterSignal(L, COMSIG_MOB_STATCHANGE)
 
 /mob/living/simple_animal/hostile/megafauna/ex_act(severity, target)
 	switch (severity)
